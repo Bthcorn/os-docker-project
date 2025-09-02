@@ -1,0 +1,17 @@
+{
+  "name": "os-docker-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+      "dev": "concurrently \"npm:dev:api\" \"npm:dev:web\"",
+      "dev:api": "cd api && npm run start",
+      "dev:web": "cd web && npm run dev",
+      "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
