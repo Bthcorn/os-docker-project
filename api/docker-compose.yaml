@@ -1,0 +1,23 @@
+services:
+  api:
+    build: .
+    image: library-api:latest
+    restart: always
+    container_name: library-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/postgres?schema=public
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
