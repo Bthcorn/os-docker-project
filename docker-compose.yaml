@@ -1,0 +1,28 @@
+services:
+  web:
+    image: library:latest
+    build: web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  api:
+    image: library-api:latest
+    build: api
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgresql://user:password@db:5432/public
+    depends_on:
+     - db
+
+  db:
+    image: postgres:15
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: public

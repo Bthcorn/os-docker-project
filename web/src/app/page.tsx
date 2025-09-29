@@ -12,6 +12,8 @@ import BookForm from "@/components/forms/BookForm";
 import AuthorForm from "@/components/forms/AuthorForm";
 import TagForm from "@/components/forms/TagForm";
 
+interface BookFilters { title?: string; authorName?: string; publishedYear?: number; }
+
 export default function LibraryManagement() {
   const [activeTab, setActiveTab] = useState<"books" | "authors" | "tags">(
     "books",
@@ -66,7 +68,7 @@ export default function LibraryManagement() {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      const filters: any = {};
+      const filters: BookFilters = {};
       if (searchTitle) filters.title = searchTitle;
       if (searchAuthor) filters.authorName = searchAuthor;
       if (searchYear) filters.publishedYear = parseInt(searchYear);
@@ -249,17 +251,17 @@ export default function LibraryManagement() {
               { id: "authors", label: "Authors", count: authors.length },
               { id: "tags", label: "Tags", count: tags.length },
             ].map((tab) => (
-              <button
+                <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as "books" | "authors" | "tags")}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
-                    ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
-              >
+                >
                 {tab.label} ({tab.count})
-              </button>
+                </button>
             ))}
           </nav>
         </div>
