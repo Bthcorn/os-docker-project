@@ -159,8 +159,21 @@ export class BooksService {
   }
 
   async remove(id: number) {
-    return await this.prisma.book.delete({
-      where: { id },
+    // Use a transaction to ensure data consistency
+    await this.prisma.$transaction(async (tx) => {
+      // First, delete all BookTag records associated with this book
+      await tx.bookTag.deleteMany({
+        where: {
+          bookId: id,
+        },
+      });
+
+      // Then delete the book itself
+      await tx.book.delete({
+        where: { id },
+      });
     });
+
+    return { message: 'Book deleted successfully' };
   }
 }
